@@ -21,7 +21,7 @@ class Drinks:
         left_frame.grid(row=0, column=0, sticky="nsew")
 
         # HANDLING BACKGROUND IMAGE FOR BOTH OF THE FRAME
-        bg_image = Image.open(r"Assessment2\bg1.png")  #Path
+        bg_image = Image.open(r"ADV_PROG_AS2\Assessment2\bg1.png")  #Path
         bg_image = bg_image.resize((642, 729)) # size
         bg_photo = ImageTk.PhotoImage(bg_image) # variable to display
 
@@ -30,7 +30,7 @@ class Drinks:
         bg_label.image = bg_photo
         bg_label.place(relx=0, rely=0, relwidth=1, relheight=1)
 
-        bg_image1 = Image.open(r"Assessment2\bg2.png") # RIGHT FRAME IMG
+        bg_image1 = Image.open(r"ADV_PROG_AS2\Assessment2\bg2.png") # RIGHT FRAME IMG
         bg_photo1 = ImageTk.PhotoImage(bg_image1)
 
         # Right Frame
@@ -120,7 +120,7 @@ class Drinks:
         response = requests.get(category_url) # GETTING REQUEST 
         data = response.json() # OBTAINING RESPONSE
 
-        # Checks if there are drink categories available in the API response
+        # Checks if there are drink categories available in the API response/data
         if data['drinks']:
             categories = [category['strCategory'] for category in data['drinks']]
             return ["Select Category"] + categories # DISPLAYS CATEGORY IN COMBOBOX
