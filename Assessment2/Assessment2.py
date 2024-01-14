@@ -15,7 +15,7 @@ class Drinks:
     def __init__(self, root):
         self.root = root
         self.root.title("drinks!")
-        self.root.geometry("1040x750")
+        self.root.geometry("1088x750")
         self.root.resizable(False,False)
         
     # IMPORTING FONT
@@ -55,15 +55,13 @@ class Drinks:
         
 
     # A Description label 
-        self.description_label = ttk.Label(left_frame, text="Listen to some tunes while exploring!",
-                                           font=("Helvetica", 10))
+        self.description_label = ttk.Label(left_frame, text="Listen to some tunes while exploring!")
     
     # Button for music play and stop      
         play_music_button = ttk.Button(left_frame, text="Play Music", command=self.play_music)
         stop_music_button = ttk.Button(left_frame, text="Stop Music", command=self.stop_music)
 
-        self.description1_label = ttk.Label(left_frame, text="1. Search a drink/Select a Category. Then press the search button",
-                                           font=("Helvetica", 10))
+        self.description1_label = ttk.Label(left_frame, text="1. Search a drink/Select a Category. Then press the search button")
 
         # Entry for searching cocktails
         self.search_entry = ttk.Entry(left_frame, width=30)#Can be Updated by users
@@ -76,21 +74,18 @@ class Drinks:
         search_button = ttk.Button(left_frame, text="Search", command=self.search_cocktails)
 
         # A Description label
-        self.description2_label = ttk.Label(left_frame, text="2. Search Item from the list",
-                                           font=("Helvetica", 10))
+        self.description2_label = ttk.Label(left_frame, text="2. Search Item from the list")
         # Listbox to display search results
         self.results_listbox = tk.Listbox(left_frame, height=10, selectmode=tk.SINGLE)# allowing only to select one
 
         # A Description label
-        self.description3_label = ttk.Label(left_frame, text="3. Click view Button",
-                                           font=("Helvetica", 10))
+        self.description3_label = ttk.Label(left_frame, text="3. Click view Button",)
 
         # Button to view details of the selected cocktail
         view_button = ttk.Button(left_frame, text="View Details", command=self.view_details)
 
         # A Description label
-        self.description4_label = ttk.Label(left_frame, text="Generate random drink!",
-                                           font=("Helvetica", 10))
+        self.description4_label = ttk.Label(left_frame, text="Generate random drink!")
 
         # Button for a random cocktail
         random_button = ttk.Button(left_frame, text="Random Cocktail", command=self.get_random_cocktail)
@@ -105,7 +100,7 @@ class Drinks:
         self.description_label.grid(row=1, column=0, columnspan=3, padx=5, pady=(120, 0))
         play_music_button.grid(row=2, column=0, columnspan=3, padx=5, pady=4)
         stop_music_button.grid(row=3, column=0, columnspan=3, padx=10, pady=4)
-        self.description1_label.grid(row=4, column=0, columnspan=3, padx=50, pady=4)
+        self.description1_label.grid(row=4, column=0, columnspan=3, padx=10, pady=4)
         self.search_entry.grid(row=5, column=0, padx=10, columnspan=3, pady=4)
         self.category_combobox.grid(row=6, column=0, columnspan=3, padx=10, pady=4)
         self.description2_label.grid(row=7, column=0, columnspan=3, pady=4)
@@ -127,7 +122,7 @@ class Drinks:
         
         #Style to match background color
         style = ttk.Style()
-        style.configure("Bg.TLabel", background="#43414A",)  # Set the background color
+        style.configure("Bg.TLabel", background="#43414A",)  # Setting the background color to fit Background
 
         # Applying the style to the label
         self.description_label["style"] = "Bg.TLabel"
@@ -135,6 +130,7 @@ class Drinks:
         self.description2_label["style"] = "Bg.TLabel"
         self.description3_label["style"] = "Bg.TLabel"
         self.description4_label["style"] = "Bg.TLabel"
+        
         self.description_label.configure(font=custom_font_properties)
         self.description1_label.configure(font=custom_font_properties)
         self.description4_label.configure(font=custom_font_properties)
