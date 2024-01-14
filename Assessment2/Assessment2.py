@@ -132,6 +132,7 @@ class Drinks:
         self.description3_label["style"] = "Bg.TLabel"
         self.description4_label["style"] = "Bg.TLabel"
         
+        # Applying Font
         self.description_label.configure(font=custom_font_properties)
         self.description1_label.configure(font=custom_font_properties)
         self.description4_label.configure(font=custom_font_properties)
