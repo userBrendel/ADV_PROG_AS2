@@ -3,7 +3,7 @@ import tkinter as tk
 from tkinter import ttk
 from PIL import Image, ImageTk
 from matplotlib import font_manager
-import pygame
+import pygame 
 from tkinter import messagebox
 import requests
 import io
@@ -21,6 +21,7 @@ class Drinks:
     # IMPORTING FONT
         font_path = r"ADV_PROG_AS2\Assessment2\InstrumentSerif-Regular.ttf" 
         custom_font_properties = font_manager.FontProperties(fname=font_path)
+        
 
 # MADE MY  BACKGROUND IMAGE ON FIGMA || slice the image for 2 frames
         # Left Frame ------------------------------------
