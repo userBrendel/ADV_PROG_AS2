@@ -2,6 +2,9 @@
 import tkinter as tk
 from tkinter import ttk
 from PIL import Image, ImageTk
+from matplotlib import font_manager
+import pygame
+from tkinter import messagebox
 import requests
 import io
 
@@ -12,8 +15,12 @@ class Drinks:
     def __init__(self, root):
         self.root = root
         self.root.title("drinks!")
-        self.root.geometry("1095x750")
+        self.root.geometry("1040x750")
         self.root.resizable(False,False)
+        
+    # IMPORTING FONT
+        font_path = r"ADV_PROG_AS2\Assessment2\InstrumentSerif-Regular.ttf" 
+        custom_font_properties = font_manager.FontProperties(fname=font_path)
 
 # MADE MY  BACKGROUND IMAGE ON FIGMA || slice the image for 2 frames
         # Left Frame ------------------------------------
@@ -40,9 +47,22 @@ class Drinks:
         bg_label1 = tk.Label(right_frame, image=bg_photo1)
         bg_label1.image = bg_photo1
         bg_label1.place(relx=0, rely=0, relwidth=1, relheight=1)
+        
+        # Importing music
+        self.bg_music = r"ADV_PROG_AS2/Assessment2/flora.mp3"
+        pygame.mixer.music.load(self.bg_music)
+        pygame.mixer.music.set_volume(0.5)
+        
 
-    # A Description label -------------------------------------------------------
-        self.description_label = ttk.Label(left_frame, text="1. Search a drink/Select a Category. Then press the search button",
+    # A Description label 
+        self.description_label = ttk.Label(left_frame, text="Listen to some tunes while exploring!",
+                                           font=("Helvetica", 10))
+    
+    # Button for music play and stop      
+        play_music_button = ttk.Button(left_frame, text="Play Music", command=self.play_music)
+        stop_music_button = ttk.Button(left_frame, text="Stop Music", command=self.stop_music)
+
+        self.description1_label = ttk.Label(left_frame, text="1. Search a drink/Select a Category. Then press the search button",
                                            font=("Helvetica", 10))
 
         # Entry for searching cocktails
@@ -76,22 +96,25 @@ class Drinks:
         random_button = ttk.Button(left_frame, text="Random Cocktail", command=self.get_random_cocktail)
 
         # Text widget to display details
-        self.details_text = tk.Text(right_frame, wrap="word", width=40, height=12, font=("Helvetica", 10))
+        self.details_text = tk.Text(right_frame, wrap="word", width=35, height=12, font=("Helvetica", 10))
 
         # Image display 
         self.cocktail_image_label = tk.Label(right_frame)
 
         # Positioning for widgets in left frame
-        self.description_label.grid(row=1, column=0, columnspan=3, padx=50, pady=(140, 0))
-        self.search_entry.grid(row=2, column=0, padx=10, columnspan=3, pady=6)
-        self.category_combobox.grid(row=3, column=0, columnspan=3, padx=10, pady=6)
-        self.description2_label.grid(row=4, column=0, columnspan=3, pady=6)
-        search_button.grid(row=5, column=0, columnspan=3, padx=10, pady=6)
-        self.results_listbox.grid(row=6, column=0, columnspan=3, padx=10, pady=6)
-        self.description3_label.grid(row=7, column=0, columnspan=3, pady=6)
-        view_button.grid(row=8, column=1, columnspan=1, padx=10, pady=6)
-        self.description4_label.grid(row=9, column=0, columnspan=3, pady=6)
-        random_button.grid(row=10, column=1, columnspan=1, padx=10, pady=6)
+        self.description_label.grid(row=1, column=0, columnspan=3, padx=5, pady=(120, 0))
+        play_music_button.grid(row=2, column=0, columnspan=3, padx=5, pady=4)
+        stop_music_button.grid(row=3, column=0, columnspan=3, padx=10, pady=4)
+        self.description1_label.grid(row=4, column=0, columnspan=3, padx=50, pady=4)
+        self.search_entry.grid(row=5, column=0, padx=10, columnspan=3, pady=4)
+        self.category_combobox.grid(row=6, column=0, columnspan=3, padx=10, pady=4)
+        self.description2_label.grid(row=7, column=0, columnspan=3, pady=4)
+        search_button.grid(row=8, column=0, columnspan=3, padx=10, pady=4)
+        self.results_listbox.grid(row=9, column=0, columnspan=3, padx=10, pady=4)
+        self.description3_label.grid(row=10, column=0, columnspan=3, pady=4)
+        view_button.grid(row=11, column=1, columnspan=1, padx=10, pady=4)
+        self.description4_label.grid(row=12, column=0, columnspan=3, pady=4)
+        random_button.grid(row=13, column=1, columnspan=1, padx=10, pady=4)
 
         # Positioning for widgets in right frame
         self.cocktail_image_label.grid(row=0, column=0, columnspan=3, padx=10, pady=(110, 10))
@@ -104,14 +127,26 @@ class Drinks:
         
         #Style to match background color
         style = ttk.Style()
-        style.configure("Bg.TLabel", background="#43414A")  # Set the background color
+        style.configure("Bg.TLabel", background="#43414A",)  # Set the background color
 
         # Applying the style to the label
         self.description_label["style"] = "Bg.TLabel"
+        self.description1_label["style"] = "Bg.TLabel"
         self.description2_label["style"] = "Bg.TLabel"
         self.description3_label["style"] = "Bg.TLabel"
         self.description4_label["style"] = "Bg.TLabel"
+        self.description_label.configure(font=custom_font_properties)
+        self.description1_label.configure(font=custom_font_properties)
+        self.description4_label.configure(font=custom_font_properties)
 
+
+#FUNCTION FOR MUSIC 
+    def play_music(self):
+        pygame.mixer.music.play(-1)  # -1 loop indefinitely
+
+    def stop_music(self):
+        pygame.mixer.music.stop()
+        
 #FUNCTION TO USE AS COMMANDS AND VALUES ----------------------------------------------------------
     # FOR GETTING CATEGORY FROM API AND DISPLAYING IT
     def get_categories(self):
@@ -254,6 +289,7 @@ class Drinks:
 
 # FINALLY DISPLAY GUI!!
 if __name__ == "__main__":
+    pygame.init()
     root = tk.Tk()
     app = Drinks(root)
     root.mainloop()
