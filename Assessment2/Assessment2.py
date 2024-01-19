@@ -1,12 +1,12 @@
 # IMPORTING NECESSARY LIBRARIES
 import tkinter as tk
 from tkinter import ttk
-from PIL import Image, ImageTk
-from matplotlib import font_manager
-import pygame 
 from tkinter import messagebox
+from PIL import Image, ImageTk
+import pygame # PYGAME FOR IMPORTING MUSIC
 import requests
-import io
+import io 
+
 
 # a class to represents the main application
 # this is to initializes the GUI and help in defining methods for handling data
@@ -16,20 +16,17 @@ class Drinks:
         self.root = root
         self.root.title("drinks!")
         self.root.geometry("1088x750")
-        self.root.resizable(False,False)
-        
-    # IMPORTING FONT
-        font_path = r"ADV_PROG_AS2\Assessment2\InstrumentSerif-Regular.ttf" 
-        custom_font_properties = font_manager.FontProperties(fname=font_path)
+        self.root.resizable(False, False)
         
 
+        
 # MADE MY  BACKGROUND IMAGE ON FIGMA || slice the image for 2 frames
         # Left Frame ------------------------------------
         left_frame = tk.Frame(root)
         left_frame.grid(row=0, column=0, sticky="nsew")
 
         # HANDLING BACKGROUND IMAGE FOR BOTH OF THE FRAME
-        bg_image = Image.open(r"ADV_PROG_AS2\Assessment2\bg1.png")  #Path
+        bg_image = Image.open(r"bg1.png")  #Path
         bg_image = bg_image.resize((642, 729)) # size
         bg_photo = ImageTk.PhotoImage(bg_image) # variable to display
 
@@ -38,10 +35,11 @@ class Drinks:
         bg_label.image = bg_photo
         bg_label.place(relx=0, rely=0, relwidth=1, relheight=1)
 
-        bg_image1 = Image.open(r"ADV_PROG_AS2\Assessment2\bg2.png") # RIGHT FRAME IMG
-        bg_photo1 = ImageTk.PhotoImage(bg_image1)
 
-        # Right Frame
+        # Right Frame -------------------------------------------------     
+        bg_image1 = Image.open(r"bg2.png") # RIGHT FRAME IMG
+        bg_photo1 = ImageTk.PhotoImage(bg_image1)
+        
         right_frame = tk.Frame(root)
         right_frame.grid(row=0, column=1,sticky="nsew")
 
@@ -49,22 +47,24 @@ class Drinks:
         bg_label1.image = bg_photo1
         bg_label1.place(relx=0, rely=0, relwidth=1, relheight=1)
         
-        # Importing music
-        self.bg_music = r"ADV_PROG_AS2/Assessment2/flora.mp3"
+        # Importing music ------------------------------------------
+        self.bg_music = r"flora.mp3"
         pygame.mixer.music.load(self.bg_music)
-        pygame.mixer.music.set_volume(0.5)
+        pygame.mixer.music.set_volume(0.2)
         
 
-    # A Description label 
-        self.description_label = ttk.Label(left_frame, text="Listen to some tunes while exploring!")
+    #  Description labels  
+        self.description_label = ttk.Label(left_frame, text="Listen to some tunes while exploring!", font=("Helvetica", 12))
+        self.description1_label = ttk.Label(left_frame, text="1. Search a drink/Select a Category. Then press the search button", font=("Helvetica", 12))
+        self.description2_label = ttk.Label(left_frame, text="2. Search Item from the list", font=("Helvetica", 12))
+        self.description3_label = ttk.Label(left_frame, text="3. Click view Button", font=("Helvetica", 12))
+        self.description4_label = ttk.Label(left_frame, text="Generate random drink!", font=("Helvetica", 12))
     
     # Button for music play and stop      
         play_music_button = ttk.Button(left_frame, text="Play Music", command=self.play_music)
         stop_music_button = ttk.Button(left_frame, text="Stop Music", command=self.stop_music)
 
-        self.description1_label = ttk.Label(left_frame, text="1. Search a drink/Select a Category. Then press the search button")
-
-        # Entry for searching cocktails
+        # Entry for searching drinks
         self.search_entry = ttk.Entry(left_frame, width=30)#Can be Updated by users
 
         # Combobox for selecting category
@@ -72,48 +72,41 @@ class Drinks:
         self.category_combobox.set("Select Category")
 
         # Button to trigger search
-        search_button = ttk.Button(left_frame, text="Search", command=self.search_cocktails)
+        search_button = ttk.Button(left_frame, text="Search", command=self.search_drinks)
 
-        # A Description label
-        self.description2_label = ttk.Label(left_frame, text="2. Search Item from the list")
+        
         # Listbox to display search results
         self.results_listbox = tk.Listbox(left_frame, height=10, selectmode=tk.SINGLE)# allowing only to select one
 
-        # A Description label
-        self.description3_label = ttk.Label(left_frame, text="3. Click view Button",)
-
-        # Button to view details of the selected cocktail
+        # Button to view details of the selected drink
         view_button = ttk.Button(left_frame, text="View Details", command=self.view_details)
 
-        # A Description label
-        self.description4_label = ttk.Label(left_frame, text="Generate random drink!")
-
-        # Button for a random cocktail
-        random_button = ttk.Button(left_frame, text="Random Cocktail", command=self.get_random_cocktail)
+        # Button for a random drink
+        random_button = ttk.Button(left_frame, text="Random Drink", command=self.get_random_drink)
 
         # Text widget to display details
         self.details_text = tk.Text(right_frame, wrap="word", width=35, height=12, font=("Helvetica", 10))
 
         # Image display 
-        self.cocktail_image_label = tk.Label(right_frame)
+        self.drink_image_label = tk.Label(right_frame)
 
-        # Positioning for widgets in left frame
-        self.description_label.grid(row=1, column=0, columnspan=3, padx=5, pady=(120, 0))
-        play_music_button.grid(row=2, column=0, columnspan=3, padx=5, pady=4)
-        stop_music_button.grid(row=3, column=0, columnspan=3, padx=10, pady=4)
-        self.description1_label.grid(row=4, column=0, columnspan=3, padx=10, pady=4)
-        self.search_entry.grid(row=5, column=0, padx=10, columnspan=3, pady=4)
-        self.category_combobox.grid(row=6, column=0, columnspan=3, padx=10, pady=4)
-        self.description2_label.grid(row=7, column=0, columnspan=3, pady=4)
-        search_button.grid(row=8, column=0, columnspan=3, padx=10, pady=4)
-        self.results_listbox.grid(row=9, column=0, columnspan=3, padx=10, pady=4)
-        self.description3_label.grid(row=10, column=0, columnspan=3, pady=4)
-        view_button.grid(row=11, column=1, columnspan=1, padx=10, pady=4)
-        self.description4_label.grid(row=12, column=0, columnspan=3, pady=4)
-        random_button.grid(row=13, column=1, columnspan=1, padx=10, pady=4)
+        # Positioning for widgets in left frame ----------------------------------------------------
+        self.description_label.grid(row=1, column=1, columnspan=3, padx=10, pady=(120, 0)) 
+        play_music_button.grid(row=2, column=1, columnspan=3, padx=10, pady=4)
+        stop_music_button.grid(row=3, column=1, columnspan=3, padx=10, pady=4)
+        self.description1_label.grid(row=4, column=1, columnspan=3, padx=10, pady=4)
+        self.search_entry.grid(row=5, column=1, padx=10, columnspan=3, pady=4)
+        self.category_combobox.grid(row=6, column=1, columnspan=3, padx=10, pady=4)
+        self.description2_label.grid(row=7, column=1, columnspan=3, pady=4)
+        search_button.grid(row=8, column=1, columnspan=3, padx=10, pady=4)
+        self.results_listbox.grid(row=9, column=1, columnspan=3, padx=10, pady=4)
+        self.description3_label.grid(row=10, column=1, columnspan=3, pady=4)
+        view_button.grid(row=11, column=1, columnspan=3, padx=10, pady=4)
+        self.description4_label.grid(row=12, column=1, columnspan=3, pady=4)
+        random_button.grid(row=13, column=1, columnspan=3, padx=10, pady=4)
 
         # Positioning for widgets in right frame
-        self.cocktail_image_label.grid(row=0, column=0, columnspan=3, padx=10, pady=(110, 10))
+        self.drink_image_label.grid(row=0, column=0, columnspan=3, padx=10, pady=(110, 10))
         self.details_text.grid(row=1, column=0, columnspan=3, padx=10, pady=0)
 
         # Adjusting row and column weights to make frames expandable
@@ -121,8 +114,8 @@ class Drinks:
         root.grid_columnconfigure(0, weight=1)
         root.grid_columnconfigure(1, weight=1)
         
-        #Style to match background color
-        style = ttk.Style()
+        #Style to match background color ------------------------------------------------------------------
+        style = ttk.Style()# Setting bg color of font and applying font variable
         style.configure("Bg.TLabel", background="#43414A",)  # Setting the background color to fit Background
 
         # Applying the style to the label
@@ -131,11 +124,7 @@ class Drinks:
         self.description2_label["style"] = "Bg.TLabel"
         self.description3_label["style"] = "Bg.TLabel"
         self.description4_label["style"] = "Bg.TLabel"
-        
-        # Applying Font
-        self.description_label.configure(font=custom_font_properties)
-        self.description1_label.configure(font=custom_font_properties)
-        self.description4_label.configure(font=custom_font_properties)
+
 
 
 #FUNCTION FOR MUSIC 
@@ -161,7 +150,7 @@ class Drinks:
             return ["Select Category"]
     
     # FOR SEARCH BUTTON FUNCTION
-    def search_cocktails(self):
+    def search_drinks(self):
         # GETTING USERS INPUT AND STORING IT IN A VARIABLE
         query = self.search_entry.get() 
         category = self.category_combobox.get()
@@ -181,7 +170,7 @@ class Drinks:
                     self.results_listbox.insert(tk.END, drink['strDrink'])# insert in listbox
                 
                 # Display the image of the first result (if available)
-                self.display_cocktail_image(data['drinks'][0]['strDrinkThumb'])
+                self.display_drink_image(data['drinks'][0]['strDrinkThumb'])
             else: # If drinks not found
                 self.results_listbox.insert(tk.END, "No results found.")
                 
@@ -200,7 +189,7 @@ class Drinks:
                     self.results_listbox.insert(tk.END, drink['strDrink'])
                 
                 # Display the image of the first result (if available)
-                self.display_cocktail_image(data['drinks'][0]['strDrinkThumb'])
+                self.display_drink_image(data['drinks'][0]['strDrinkThumb'])
             else:
                 self.results_listbox.insert(tk.END, "No results found.")
         else:
@@ -232,10 +221,10 @@ class Drinks:
                 self.details_text.insert(tk.END, details_text) # Displays details
 
                 # Display the image of the selected drink
-                self.display_cocktail_image(drink_details['strDrinkThumb'])
+                self.display_drink_image(drink_details['strDrinkThumb'])
 
     # FOR RANDOM BUTTON FUNCTION
-    def get_random_cocktail(self):
+    def get_random_drink(self):
         random_url = "https://www.thecocktaildb.com/api/json/v1/1/random.php"
         response = requests.get(random_url)
         data = response.json()
@@ -253,7 +242,7 @@ class Drinks:
             self.details_text.insert(tk.END, details_text)
 
             # Display the image of the random drink
-            self.display_cocktail_image(random_drink['strDrinkThumb'])
+            self.display_drink_image(random_drink['strDrinkThumb'])
     
     # FOR GETTING INGREDIENTS DETAILS      
     def get_ingredients(self, drink_details): # PARAMETER drink_details will be used
@@ -270,8 +259,8 @@ class Drinks:
         # Joins the list of formatted ingredients into a single string using newline characters ("\n") 
         return "\n".join(ingredients)
 
-    #FOR DISPLAYING IMAGE OF COCKTAIL CHOSEN
-    def display_cocktail_image(self, image_url): #Parameter image_url that dynamically obtained from the API response
+    #FOR DISPLAYING IMAGE OF DRINK CHOSEN
+    def display_drink_image(self, image_url): #Parameter image_url that dynamically obtained from the API response
         # GETTING IMAGE FOR FROM API
         response = requests.get(image_url)
         img_data = response.content
@@ -282,8 +271,8 @@ class Drinks:
         img = ImageTk.PhotoImage(img) # CONVERTS TO TKINTER OBJECT
 
         # Updating the image label for display
-        self.cocktail_image_label.config(image=img)
-        self.cocktail_image_label.image = img
+        self.drink_image_label.config(image=img)
+        self.drink_image_label.image = img
 
 # FINALLY DISPLAY GUI!!
 if __name__ == "__main__":
